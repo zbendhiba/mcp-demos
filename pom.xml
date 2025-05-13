@@ -40,6 +40,7 @@
         <module>2-chat-model-and-ai-service</module>
         <module>3-summarization</module>
         <module>4-mcp-client-time</module>
+        <module>5-mcp-server-booking</module>
 
     </modules>
 
