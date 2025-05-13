@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  wanaku-tool-service-kafka:
+    image: quay.io/wanaku/wanaku-tool-service-kafka:wanaku-0.0.5
+    ports:
+      - "9000:9000"
+    volumes:
+      - ~/.wanaku/router:/home/default/.wanaku/router
+  wanaku-tool-service-http:
+    image: quay.io/wanaku/wanaku-tool-service-http:wanaku-0.0.5
+    ports:
+      - "9001:9000"
+    volumes:
+      - ~/.wanaku/router:/home/default/.wanaku/router
+
+  wanaku-tool-service-tavily:
+    image: quay.io/wanaku/wanaku-tool-service-tavily:wanaku-0.0.5
+    environment:
+      TAVILY_API_KEY: "INSERT_YOUR_API_KEY"
+    ports:
+      - "9006:9000"
+    volumes:
+      - ~/.wanaku/router:/home/default/.wanaku/router
+
+  wanaku-tool-service-telegram:
+    image: quay.io/wanaku/wanaku-tool-service-telegram:wanaku-0.0.5
+    ports:
+      - "9007:9000"
+    volumes:
+      - ~/.wanaku/router:/home/default/.wanaku/router
+
+  wanaku-router:
+    depends_on:
+      - wanaku-tool-service-kafka
+      - wanaku-tool-service-telegram
+      - wanaku-tool-service-tavily
+      - wanaku-tool-service-http
+    image: quay.io/wanaku/wanaku-router:wanaku-0.0.5
+    ports:
+      - "8085:8080"
+    volumes:
+      - ~/.wanaku/router:/home/default/.wanaku/router
