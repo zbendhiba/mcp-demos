@@ -17,7 +17,7 @@ public class BookingRepository implements PanacheRepository<Booking> {
     @Tool(description = "Cancel a booking")
     @Transactional
     public boolean cancelBooking(long bookingId, String customerFirstName, String customerLastName) {
-        Booking booking = getBookingDetails(bookingId);
+        Booking booking = getBooking(bookingId);
         // too late to cancel
         if (booking.dateFrom.minusDays(11).isBefore(LocalDate.now())) {
             throw new Exceptions.BookingCannotBeCancelledException(bookingId);
@@ -43,7 +43,16 @@ public class BookingRepository implements PanacheRepository<Booking> {
 
     @ActivateRequestContext
     @Tool(description = "Get booking details")
-    public Booking getBookingDetails(long bookingId) {
+    public String getBookingDetails(long bookingId) {
+        Booking found = findById(bookingId);
+        if (found == null) {
+            throw new Exceptions.BookingNotFoundException(bookingId);
+        }
+
+        return found.toString();
+    }
+
+    public Booking getBooking(long bookingId) {
         Booking found = findById(bookingId);
         if (found == null) {
             throw new Exceptions.BookingNotFoundException(bookingId);

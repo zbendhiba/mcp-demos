@@ -13,4 +13,15 @@ public class Booking extends PanacheEntity {
     Customer customer;
     LocalDate dateFrom;
     LocalDate dateTo;
+
+
+    public String toString(){
+         return "{" +
+                 "\"id\": " + id + ", " +
+
+                "\"dateFrom\": \"" + dateFrom  +"\", " +
+                "\"dateTo\": \"" + dateTo+ "\"" +
+                "}";
+
+    }
 }
